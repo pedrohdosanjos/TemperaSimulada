@@ -1,0 +1,26 @@
+Temperatura: 10000	Taxa de resfriamento: 0.98	Máximo de iterações: 1000
+106 100 16
+105 96 22
+105 96 275
+106 100 113
+106 100 24
+106 100 199
+106 100 210
+117 100 228
+109 99 88
+109 99 232
+99 97 272
+109 99 136
+117 100 200
+105 96 209
+105 96 317
+105 96 203
+117 100 348
+92 95 192
+103 95 107
+117 100 270
+Media das Iteracoes: 183.05
+Maior valor: 117 - Aparece 4 vezes
+Segundo maior valor: 109 - Aparece 3 vezes
+Terceiro maior valor: 106 - Aparece 5 vezes
+Porcentagem de ocorrências do maior valor em relação a todos os outros: 20%

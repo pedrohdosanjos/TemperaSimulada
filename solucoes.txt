@@ -1,0 +1,80 @@
+Temperatura: 10000	Taxa de resfriamento: 0.99	Máximo de iterações: 1000
+105 96 112
+117 100 194
+106 100 78
+109 99 487
+117 100 187
+106 100 193
+117 100 573
+109 99 178
+109 99 240
+117 100 171
+117 100 634
+117 100 435
+109 99 103
+117 100 686
+117 100 456
+105 96 376
+106 100 306
+105 96 373
+117 100 150
+117 100 521
+Media das Iteracoes: 322.65
+Maior valor: 117 - Aparece 10 vezes
+Segundo maior valor: 109 - Aparece 4 vezes
+Terceiro maior valor: 106 - Aparece 3 vezes
+Porcentagem de ocorrências do maior valor em relação a todos os outros: 50%
+
+Temperatura: 1000	Taxa de resfriamento: 0.99	Máximo de iterações: 1000
+117 100 443
+117 100 193
+103 95 271
+117 100 397
+109 99 105
+105 96 516
+117 100 390
+117 100 298
+109 99 336
+117 100 333
+117 100 183
+117 100 432
+106 100 140
+99 97 350
+99 97 341
+109 99 138
+92 95 11
+99 97 417
+109 99 72
+109 99 207
+Media das Iteracoes: 278.65
+Maior valor: 117 - Aparece 8 vezes
+Segundo maior valor: 109 - Aparece 5 vezes
+Terceiro maior valor: 106 - Aparece 1 vezes
+Porcentagem de ocorrências do maior valor em relação a todos os outros: 40%
+
+Temperatura: 10000	Taxa de resfriamento: 0.98	Máximo de iterações: 1000
+106 100 16
+105 96 22
+105 96 275
+106 100 113
+106 100 24
+106 100 199
+106 100 210
+117 100 228
+109 99 88
+109 99 232
+99 97 272
+109 99 136
+117 100 200
+105 96 209
+105 96 317
+105 96 203
+117 100 348
+92 95 192
+103 95 107
+117 100 270
+Media das Iteracoes: 183.05
+Maior valor: 117 - Aparece 4 vezes
+Segundo maior valor: 109 - Aparece 3 vezes
+Terceiro maior valor: 106 - Aparece 5 vezes
+Porcentagem de ocorrências do maior valor em relação a todos os outros: 20%
