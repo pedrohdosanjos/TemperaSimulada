@@ -7,6 +7,15 @@
 
 int CAPACIDADE = 101;
 
+void imprimeItens(const std::vector<int> &vetor)
+{
+    for (size_t i = 0; i < vetor.size(); ++i)
+    {
+        std::cout << vetor[i] << " ";
+    }
+    std::cout << std::endl;
+}
+
 void calcularPesoValor(const std::vector<int> &vetor, const ListaItens &lista, int &peso, int &valor)
 {
     peso = 0;
@@ -29,13 +38,6 @@ void calcularPesoValor(const std::vector<int> &vetor, const ListaItens &lista, i
     }
 }
 
-double probabilidadeAceitacao(int delta, double temperatura)
-{
-    if (delta > 0) // Se a nova solução é melhor
-        return 1.0;
-    return exp(delta / temperatura); // Probabilidade de aceitar uma solução pior
-}
-
 int main()
 {
     std::srand(std::time(0));
@@ -48,14 +50,15 @@ int main()
     std::cout << "\nTamanho da lista: " << lista.getSize() << std::endl;
 
     // Gera uma solução inicial aleatória
-    std::cout << "\nSolucao inicial: ";
-
     std::vector<int> itensSelecionados(size);
     for (int i = 0; i < size; i++)
     {
         itensSelecionados[i] = rand() % 2; // Gera 0 ou 1
-        std::cout << itensSelecionados[i] << " ";
     }
+
+    std::cout << "\nSolucao inicial: ";
+
+    imprimeItens(itensSelecionados);
 
     // Calcula o peso e valor inicial
     int peso = 0, valor = 0;
@@ -65,8 +68,8 @@ int main()
 
     // Parâmetros da Simulated Annealing
     double temperatura = 10000.0;
-    double resfriamento = 0.98;
-    int iteracoes = 100000;
+    double resfriamento = 0.99;
+    int iteracoes = 1000;
 
     // Armazena a melhor solução
     int melhorValor = valor;
@@ -83,28 +86,51 @@ int main()
         int pesoVizinho = 0, valorVizinho = 0;
         calcularPesoValor(vizinho, lista, pesoVizinho, valorVizinho);
 
+        std::cout << "Candidato: \n";
+        imprimeItens(vizinho);
+
+        std::cout << "Valor: " << valorVizinho << "\nPeso: " << pesoVizinho << "\n"
+                  << std::endl;
+
         int delta = valorVizinho - valor;
 
         // Verifica se aceita a nova solução
-        if (delta > 0 || (rand() / double(RAND_MAX)) < probabilidadeAceitacao(delta, temperatura))
+        if (delta > 0)
         {
             itensSelecionados = vizinho;
             valor = valorVizinho;
             peso = pesoVizinho;
+        }
 
-            // Atualiza a melhor solução
-            if (valor > melhorValor)
+        else
+        {
+            // Aceita a nova solução pior com uma probabilidade
+            double randomProb = rand() / double(RAND_MAX); // Número aleatório entre 0 e 1
+            double probAceitar = exp(delta / temperatura); // Fórmula da Simulated Annealing
+
+            if (randomProb < probAceitar)
             {
-                melhorValor = valor;
-                melhorIteracao = i;
+                // Aceita a nova solução mesmo sendo pior
+                itensSelecionados = vizinho;
+                valor = valorVizinho;
+                peso = pesoVizinho;
             }
+        }
+
+        // Atualiza a melhor solução
+        if (valor > melhorValor)
+        {
+            melhorValor = valor;
+            melhorIteracao = i;
         }
 
         // Resfriamento da temperatura
         temperatura *= resfriamento;
 
+        imprimeItens(itensSelecionados);
         // Exibe a solução atual
-        std::cout << "\nIteracao " << i << ":\nValor: " << valor << "\nPeso: " << peso << std::endl;
+        std::cout << "Iteracao " << i << ":\nValor: " << valor << "\nPeso: " << peso << "\n"
+                  << std::endl;
 
         if (temperatura < 1e-5)
             break; // Parar se a temperatura for muito baixa
