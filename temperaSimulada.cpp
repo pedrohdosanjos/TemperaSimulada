@@ -7,6 +7,7 @@
 #include <fstream>
 #include <numeric>
 #include <algorithm>
+#include <sstream>
 
 int CAPACIDADE = 101;
 
@@ -17,6 +18,14 @@ struct Data
     int iteracao;
 };
 
+double funcaoTemperaturaLinear(int iteracao)
+{
+    int maxIter = 1000;
+    double temperaturaInicial = 10000.0;
+
+    return (temperaturaInicial / maxIter) * (maxIter - iteracao);
+}
+
 // Função para ler o arquivo e armazenar os dados
 std::vector<Data> lerArquivo(const std::string &nomeArquivo)
 {
@@ -25,10 +34,20 @@ std::vector<Data> lerArquivo(const std::string &nomeArquivo)
     if (arquivo.is_open())
     {
         std::string linha;
-        std::getline(arquivo, linha); // Ignorar a primeira linha
-        int valor, peso, iteracao;
-        while (arquivo >> valor >> peso >> iteracao)
+        std::getline(arquivo, linha);        // Ignorar a primeira linha
+        while (std::getline(arquivo, linha)) // Ler o restante das linhas
         {
+            std::istringstream ss(linha);
+            int valor, peso, iteracao;
+            char delimitador;
+
+            // Ler os três primeiros valores antes do '|'
+            ss >> valor >> peso >> iteracao;
+
+            // Ignorar o restante da linha após o '|'
+            ss.ignore(std::numeric_limits<std::streamsize>::max(), '|');
+
+            // Armazenar apenas o primeiro conjunto de dados no vetor
             dados.push_back({valor, peso, iteracao});
         }
         arquivo.close();
@@ -78,30 +97,17 @@ void analisarDados(const std::vector<Data> &dados)
         std::sort(valoresUnicos.begin(), valoresUnicos.end(), std::greater<int>());                        // Ordenar em ordem decrescente
         valoresUnicos.erase(std::unique(valoresUnicos.begin(), valoresUnicos.end()), valoresUnicos.end()); // Remover duplicatas
 
-        if (valoresUnicos.size() >= 3)
+        for (int i = 0; i < valoresUnicos.size(); i++)
         {
-            int maiorValor = valoresUnicos[0];
-            int segundoMaiorValor = valoresUnicos[1];
-            int terceiroMaiorValor = valoresUnicos[2];
-
-            int ocorrenciasMaior = contarOcorrencias(valores, maiorValor);
-            int ocorrenciasSegundoMaior = contarOcorrencias(valores, segundoMaiorValor);
-            int ocorrenciasTerceiroMaior = contarOcorrencias(valores, terceiroMaiorValor);
-
-            arquivo << "Maior valor: " << maiorValor << " - Aparece " << ocorrenciasMaior << " vezes" << std::endl;
-            arquivo << "Segundo maior valor: " << segundoMaiorValor << " - Aparece " << ocorrenciasSegundoMaior << " vezes" << std::endl;
-            arquivo << "Terceiro maior valor: " << terceiroMaiorValor << " - Aparece " << ocorrenciasTerceiroMaior << " vezes" << std::endl;
-
-            // 3. Calcular a porcentagem do maior valor em relação ao total de valores
-            double porcentagemMaior = (static_cast<double>(ocorrenciasMaior) / valores.size()) * 100.0;
-            arquivo << "Porcentagem de ocorrências do maior valor em relação a todos os outros: " << porcentagemMaior << "%\n"
-                    << std::endl;
+            int valor = valoresUnicos[i];
+            int ocorrencias = contarOcorrencias(valores, valor);
+            arquivo << "Valor: " << valor << " - Aparece " << ocorrencias << " vezes" << std::endl;
         }
-        else
-        {
-            arquivo << "Nao ha valores suficientes para determinar os três maiores.\n"
-                    << std::endl;
-        }
+
+        // 3. Calcular a porcentagem do maior valor em relação ao total de valores
+        double porcentagemMaior = (static_cast<double>(contarOcorrencias(valores, valoresUnicos[0])) / valores.size()) * 100.0;
+        arquivo << "Porcentagem de ocorrências do maior valor em relação a todos os outros: " << porcentagemMaior << "%\n"
+                << std::endl;
 
         arquivo.close(); // Fecha o arquivo após escrever
     }
@@ -133,15 +139,15 @@ void copiarArquivo(const std::string &origem, const std::string &destino)
     arquivoDestino.close();
 }
 
-void salvarEmArquivo(int valor1, int valor2, int valor3)
+void salvarEmArquivo(int valor1, int valor2, int valor3, int valor4, int valor5)
 {
     // Abre (ou cria) o arquivo em modo de adição (append), para não sobrescrever o conteúdo existente
     std::ofstream arquivo("./solucoesParciais.txt", std::ios::app);
 
     if (arquivo.is_open())
     {
-        arquivo << valor1 << " " << valor2 << " " << valor3 << std::endl; // Escreve os valores separados por um espaço e em uma nova linha
-        arquivo.close();                                                  // Fecha o arquivo
+        arquivo << valor1 << " " << valor2 << " " << valor3 << " | " << valor4 << " " << valor5 << std::endl; // Escreve os valores separados por um espaço e em uma nova linha
+        arquivo.close();                                                                                      // Fecha o arquivo
     }
     else
     {
@@ -180,7 +186,7 @@ void calcularPesoValor(const std::vector<int> &vetor, const ListaItens &lista, i
     }
 }
 
-int temperaSimulada(double temperatura, double resfriamento, int maxIter)
+int temperaSimulada(double temperatura)
 {
     std::srand(std::time(0));
 
@@ -213,8 +219,11 @@ int temperaSimulada(double temperatura, double resfriamento, int maxIter)
     int melhorPeso = peso;
     int melhorIteracao = 0;
 
-    for (int i = 0; i < maxIter; i++)
+    for (int i = 0; temperatura > 1e-5; i++)
     {
+        // Resfriamento da temperatura
+        temperatura = funcaoTemperaturaLinear(i);
+
         system("cls");
 
         // Gera uma solução vizinha
@@ -265,41 +274,37 @@ int temperaSimulada(double temperatura, double resfriamento, int maxIter)
             melhorIteracao = i;
         }
 
-        // Resfriamento da temperatura
-        temperatura *= resfriamento;
-
         imprimeItens(itensSelecionados);
         // Exibe a solução atual
         std::cout << "Iteracao " << i << ":\nValor: " << valor << "\nPeso: " << peso << "\n"
                   << std::endl;
 
-        if (temperatura < 1e-5)
-            break; // Parar se a temperatura for muito baixa
+        std::cout << "Temperatura: " << temperatura << std::endl;
     }
 
     std::cout << "\nA melhor solucao foi encontrada na iteracao " << melhorIteracao
               << " com valor " << melhorValor << " e peso " << melhorPeso << "\n"
               << std::endl;
 
-    salvarEmArquivo(melhorValor, melhorPeso, melhorIteracao);
+    salvarEmArquivo(melhorValor, melhorPeso, melhorIteracao, valor, peso);
 
     return 0;
 }
 
-int execute(double temperatura, double resfriamento, int maxIter)
+int execute(double temperatura)
 {
     std::ofstream arquivoParcial("./solucoesParciais.txt");
     if (arquivoParcial.is_open())
     {
-        arquivoParcial << "Temperatura: " << temperatura << "\tTaxa de resfriamento: " << resfriamento << "\tMáximo de iterações: " << maxIter << std::endl;
+        arquivoParcial << "Temperatura inicial: " << temperatura << std::endl;
         arquivoParcial.close();
     }
     else
         std::cerr << "Erro ao abrir o arquivo." << std::endl;
 
-    for (int i = 0; i < 20; i++)
+    for (int i = 0; i < 1000; i++)
     {
-        temperaSimulada(temperatura, resfriamento, maxIter);
+        temperaSimulada(temperatura);
     }
 
     std::vector<Data> dados = lerArquivo("./solucoesParciais.txt");
@@ -320,9 +325,6 @@ int execute(double temperatura, double resfriamento, int maxIter)
 
 int main()
 {
-    execute(10000.0, 0.99, 1000);
-    execute(1000.0, 0.99, 1000);
-    execute(10000.0, 0.98, 1000);
-
+    execute(10000.0);
     return 0;
 }
