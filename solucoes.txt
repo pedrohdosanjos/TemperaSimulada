@@ -2026,7 +2026,7 @@ Valor: 91 - Aparece 1 vezes
 Valor: 90 - Aparece 1 vezes
 Porcentagem de ocorrências do maior valor em relação a todos os outros: 57.8%
 
-Temperatura inicial: 10000 | População inicial fixa em 0's
+Temperatura inicial: 10000 | População inicial fixa em 1's
 Função de resfriamento linear | 1000 execuçõesTemperatura inicial: 10000
 109 99 325 | 87 93
 109 99 264 | 0 288
