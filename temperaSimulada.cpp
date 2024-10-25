@@ -187,7 +187,7 @@ int execute(double temperatura, bool lin_exp, int init_rand, int execucoes, Data
     std::ofstream arquivoParcial("./solucoesParciais.txt");
     if (arquivoParcial.is_open())
     {
-        arquivoParcial << "Temperatura inicial: " << temperatura << std::endl;
+        arquivoParcial << "Temperatura inicial: " << temperatura << " | População inicial " << init_rand << "\nFunção de resfriamento " << lin_exp << " | " << execucoes << " execuções" << "\n";
         arquivoParcial.close();
     }
     else
@@ -219,8 +219,8 @@ int main()
     DataHandler handler;
     // temperatura inicial, linear(0) ou exponencial(1), iniciar com 0's(0) com 1's(1) ou população aleatória(2)
     execute(10000.0, 1, 0, 1000, handler);
-    execute(10000.0, 1, 1, 1000, handler);
-    execute(10000.0, 1, 2, 1000, handler);
+    // execute(10000.0, 1, 1, 1000, handler);
+    // execute(10000.0, 1, 2, 1000, handler);
 
     return 0;
 }
