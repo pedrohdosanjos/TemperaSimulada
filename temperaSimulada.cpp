@@ -180,7 +180,7 @@ int temperaSimulada(double temperatura, bool lin_exp, int init_rand, DataHandler
     return 0;
 }
 
-int execute(double temperatura, bool lin_exp, int init_rand, DataHandler handler)
+int execute(double temperatura, bool lin_exp, int init_rand, int execucoes, DataHandler handler)
 
 {
 
@@ -193,7 +193,7 @@ int execute(double temperatura, bool lin_exp, int init_rand, DataHandler handler
     else
         std::cerr << "Erro ao abrir o arquivo." << std::endl;
 
-    for (int i = 0; i < 100; i++)
+    for (int i = 0; i < execucoes; i++)
     {
         temperaSimulada(temperatura, lin_exp, init_rand, handler);
     }
@@ -218,9 +218,9 @@ int main()
 {
     DataHandler handler;
     // temperatura inicial, linear(0) ou exponencial(1), iniciar com 0's(0) com 1's(1) ou população aleatória(2)
-    execute(10000.0, 1, 0, handler);
-    execute(10000.0, 1, 1, handler);
-    execute(10000.0, 1, 2, handler);
+    execute(10000.0, 1, 0, 1000, handler);
+    execute(10000.0, 1, 1, 1000, handler);
+    execute(10000.0, 1, 2, 1000, handler);
 
     return 0;
 }
