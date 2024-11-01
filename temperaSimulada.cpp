@@ -14,13 +14,13 @@ int CAPACIDADE = 101;
 
 double funcaoTemperaturaLinear(int iteracao, double temperaturaInicial)
 {
-    int maxIter = 1000;
+    int maxIter = 3000;
     return (temperaturaInicial / maxIter) * (maxIter - iteracao);
 }
 
 double funcaoTemperaturaExponencial(int iteracao, double temperaturaInicial)
 {
-    double alpha = 0.99; // fator de decaimento
+    double alpha = 0.996; // fator de decaimento
     return temperaturaInicial * pow(alpha, iteracao);
 }
 
@@ -98,7 +98,7 @@ int temperaSimulada(double temperatura, bool lin_exp, int init_rand, DataHandler
     double temperaturaVariavel = temperatura;
     double temperaturaInicial = temperatura;
 
-    for (int i = 0; temperaturaVariavel > 1; i++)
+    for (int i = 0; temperaturaVariavel > 0.01; i++)
     {
         if (lin_exp == 0)
             // Resfriamento da temperatura
@@ -218,9 +218,7 @@ int main()
 {
     DataHandler handler;
     // temperatura inicial, linear(0) ou exponencial(1), iniciar com 0's(0) com 1's(1) ou população aleatória(2)
-    execute(10000.0, 1, 0, 1000, handler);
-    // execute(10000.0, 1, 1, 1000, handler);
-    // execute(10000.0, 1, 2, 1000, handler);
+    execute(10000.0, 1, 1, 1000, handler);
 
     return 0;
 }
