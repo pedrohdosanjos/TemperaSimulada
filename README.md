@@ -20,7 +20,7 @@ O objetivo é selecionar itens com base em seus valores e pesos, respeitando a c
 Para compilar o programa, use o seguinte comando no terminal:
 
 ```bash
-g++ -o temperaSimulada ./temperaSimulada.cpp ./sources/item.cpp ./sources/listaItens.cpp
+g++ -o temperaSimulada ./temperaSimulada.cpp ./sources/item.cpp ./sources/listaItens.cpp ./sources/DataHandler.cpp
 
 ./temperaSimulada
 
