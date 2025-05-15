@@ -1,27 +1,33 @@
-# Simulated Annealing - Problema da Mochila
+# Simulated Annealing - Knapsack Problem
 
-## Descrição
+**Academic project implementing the Simulated Annealing technique to solve the combinatorial Knapsack Problem.**
 
-Projeto desenvolvido para a disciplina de Sistemas Inteligentes | Engenharia de Computação | UTFPR
+Developed for the Intelligent Systems course — Computer Engineering | UTFPR.
 
-Este programa implementa a técnica de **Simulated Annealing** para resolver o problema combinatório da **Mochila (Knapsack Problem)**. Ele está escrito em C++ e utiliza uma estrutura modular com classes para representar os itens e a lista de itens.
+This program uses a modular C++ implementation with classes to represent items and item lists. The goal is to select items based on their value and weight while respecting the maximum capacity of the knapsack, and to find an optimized solution using Simulated Annealing.
 
-O objetivo é selecionar itens com base em seus valores e pesos, respeitando a capacidade máxima da mochila, e encontrar uma solução otimizada.
+---
 
-## Requisitos
+## Requirements
 
-- **Compilador C++** (g++)
-- **Sistema operacional** compatível com execução de binários C++ (Linux, Windows, etc.)
+- **C++ Compiler** (e.g., g++)
+- **Operating System** compatible with C++ binaries (Linux, Windows, etc.)
 
-## Instruções de Uso
+---
 
-### Compilar o programa
+## How to Compile and Run
 
-Para compilar o programa, use o seguinte comando no terminal:
+To compile and run the program, use the following commands in your terminal:
 
 ```bash
 g++ -o temperaSimulada ./temperaSimulada.cpp ./sources/item.cpp ./sources/listaItens.cpp ./sources/DataHandler.cpp
 
 ./temperaSimulada
-
 ```
+
+---
+
+## Notes
+
+- This project was developed as part of an academic assignment.
+- The algorithm is implemented with simplicity and clarity in mind, focusing on functionality.
